@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "strfuncs.h"
 
 
@@ -9,8 +8,8 @@ int main(void) {
     char *filtered=NULL;
 
     filtered = string_filter(some_str, '.');
-    printf("original: '%s' (%lu)\n"
-           "filtrada: '%s' (%lu)\n",
+    printf("original: '%s' (%llu)\n"
+           "filtrada: '%s' (%llu)\n",
            some_str, string_length(some_str),
            filtered, string_length(filtered));
 
@@ -19,4 +18,3 @@ int main(void) {
 
     return EXIT_SUCCESS;
 }
-

@@ -5,13 +5,14 @@
 
 char *string_clone(const char *str) {
     char *clone=NULL;
-    /* COMPLETAR */
+    clone = malloc( (strlen(str) +1u) * sizeof(char) ); // Reservo memoria para el clon
+    strcpy(clone, str);  // Copio el string
     return clone;
 }
 
 
 int main(void) {
-    char *original=""
+    char *original=""  
          "______ time ago in a galaxy far, far away...\n\n\n"
          "         _______..___________.     ___      .______             \n"
          "        /       ||           |    /   \\     |   _  \\          \n"
@@ -54,4 +55,3 @@ int main(void) {
 
     return EXIT_SUCCESS;
 }
-

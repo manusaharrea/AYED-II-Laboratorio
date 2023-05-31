@@ -3,18 +3,18 @@
 #include <string.h>
 
 char *string_clone(const char *str, size_t length) {
-    char clone[length + 1];
-    char *output=clone;
+    char *clone = NULL;  // Inicializo en NULL para que no apunte a basura
+    clone = malloc((length + 1) * sizeof(char));  // Reservo memoria para el clon
     for (size_t i=0; i<length; i++) {
-        clone[i] = str[i];
+        clone[i] = str[i];  // Copio caracter por caracter
     }
-    clone[length] = '\0';
-    return output;
+    clone[length] = '\0';  // Agrego el caracter nulo al final
+    return clone;  // Devuelvo el clon que es de tipo char* (puntero a char)
 }
 
 
 int main(void) {
-    char *original=""
+    char original[]=""
          "______ time ago in a galaxy far, far away...\n\n\n"
          "         _______..___________.     ___      .______             \n"
          "        /       ||           |    /   \\     |   _  \\          \n"
@@ -44,7 +44,7 @@ int main(void) {
          "galaxy...\n";
     char *copy=NULL;
 
-    copy = string_clone(original, sizeof(original)/sizeof(char) - 1);
+    copy = string_clone(original, sizeof(original) - 1);  // Le paso la longitud del string original (sin contar el caracter nulo)
     printf("Original: %s\n", original);
     copy[0] = 'A';
     copy[1] = ' ';
@@ -59,3 +59,21 @@ int main(void) {
     return EXIT_SUCCESS;
 }
 
+/*
+
+    Los errores que encontre fueron:
+    1. En la funcion string_clone se esta devolviendo un puntero a una variable local de la funcion (clone) que se destruye al salir de la funcion
+    2. En la funcion string_clone no se esta reservando memoria para el string clone
+    3. En la funcion main se esta pasando sizeof(original)/sizeof(char) - 1 como longitud del string original, pero esto no es correcto ya que 
+    sizeof(original) devuelve el tamaño del puntero y no del string
+    4. En char original, debemos pasar char original[] y no char original ya que sino no el compilador no sabe cuanta memoria reservar para el string
+    y no se puede inicializar con la cadena que le pasamos.
+    4. En la funcion main, al dividir sizeof(original) por sizeof(char) se esta dividiendo el tamaño del puntero por el tamaño de un char, lo cual no tiene sentido
+
+    clone_ptr:
+
+    Si en lugar de char original[] le ponemos char *original entonces solo estariamos creando un puntero sin asignar memoria para el string, por lo que
+    al intentar inicializarlo con la cadena que le pasamos, el compilador nos va a tirar un error de segmentacion ya que no sabe cuanta memoria reservar para el string
+    Y al utilizar un arreglo en la declaracion no es necesario realizar una asignacion de memoria ya que el compilador se encarga de reservar la memoria necesaria para el string   
+
+*/
